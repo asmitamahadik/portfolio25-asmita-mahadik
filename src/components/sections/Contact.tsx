@@ -2,36 +2,37 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Github, Linkedin, Send } from "lucide-react";
+
+const contactInfo = [
+  {
+    icon: Mail,
+    title: "Email",
+    value: "asmitamahadik24@gmail.com",
+    href: "mailto:asmitamahadik24@gmail.com",
+  },
+  {
+    icon: Github,
+    title: "GitHub",
+    value: "github.com/asmitamahadik",
+    href: "https://github.com/asmitamahadik",
+  },
+  {
+    icon: Linkedin,
+    title: "LinkedIn",
+    value: "linkedin.com/in/asmita-mahadik-08abb6179",
+    href: "https://linkedin.com/in/asmita-mahadik-08abb6179",
+  },
+];
+
+const availability = [
+  { color: "bg-green-400", label: "Full-time opportunities" },
+  { color: "bg-blue-400", label: "Freelance projects" },
+  { color: "bg-cyan-400", label: "Technical consultations" },
+  { color: "bg-purple-400", label: "Open source collaborations" },
+];
 
 const Contact = () => {
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: "Email",
-      value: "asmitamahadik24@gmail.com",
-      href: "mailto:asmitamahadik24@gmail.com"
-    },
-    {
-      icon: Phone,
-      title: "Phone",
-      value: "+91 9307406877",
-      href: "tel:+919307406877"
-    },
-    {
-      icon: Github,
-      title: "GitHub",
-      value: "github.com/asmitamahadik",
-      href: "https://github.com/asmitamahadik"
-    },
-    {
-      icon: Linkedin,
-      title: "LinkedIn",
-      value: "linkedin.com/in/asmita-mahadik",
-      href: "https://linkedin.com/in/asmita-mahadik-08abb6179"
-    }
-  ];
-
   return (
     <section id="contact" className="py-20 bg-muted/20">
       <div className="container mx-auto px-6">
@@ -44,19 +45,18 @@ const Contact = () => {
             Ready to collaborate on your next project? Let's discuss how we can create something amazing together.
           </p>
         </div>
-        
+
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Information */}
           <div className="space-y-6">
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-4">Let's Connect</h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm always excited to discuss new opportunities, innovative projects, and potential collaborations. 
-                Whether you're looking for a developer to join your team or need help with a specific project, 
+                I'm always excited to discuss new opportunities, innovative projects, and potential collaborations.
+                Whether you're looking for a developer to join your team or need help with a specific project,
                 I'd love to hear from you.
               </p>
             </div>
-            
+
             <div className="grid sm:grid-cols-2 gap-4">
               {contactInfo.map((item, index) => (
                 <Card key={index} className="card-hover bg-gradient-card border-accent/20">
@@ -67,7 +67,7 @@ const Contact = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="font-semibold text-sm">{item.title}</h4>
-                        <a 
+                        <a
                           href={item.href}
                           target={item.href.startsWith('http') ? '_blank' : undefined}
                           rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -81,31 +81,20 @@ const Contact = () => {
                 </Card>
               ))}
             </div>
-            
+
             <div className="bg-gradient-card p-6 rounded-2xl shadow-card">
               <h4 className="font-semibold mb-3 text-cyan-400">Currently Available For</h4>
               <ul className="space-y-2">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
-                  <span className="text-muted-foreground text-sm">Full-time opportunities</span>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
-                  <span className="text-muted-foreground text-sm">Freelance projects</span>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></div>
-                  <span className="text-muted-foreground text-sm">Technical consultations</span>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
-                  <span className="text-muted-foreground text-sm">Open source collaborations</span>
-                </li>
+                {availability.map((item) => (
+                  <li key={item.label} className="flex items-center">
+                    <div className={`w-2 h-2 ${item.color} rounded-full mr-3`}></div>
+                    <span className="text-muted-foreground text-sm">{item.label}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
-          
-          {/* Contact Form */}
+
           <Card className="bg-gradient-card border-accent/20">
             <CardHeader>
               <CardTitle className="text-xl">Send a Message</CardTitle>
@@ -114,38 +103,38 @@ const Contact = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Name</label>
-                  <Input 
-                    placeholder="Your name" 
+                  <Input
+                    placeholder="Your name"
                     className="bg-background/50 border-accent/50 focus:border-cyan-400"
                   />
                 </div>
                 <div>
                   <label className="text-sm font-medium mb-2 block">Email</label>
-                  <Input 
-                    type="email" 
-                    placeholder="your.email@example.com" 
+                  <Input
+                    type="email"
+                    placeholder="your.email@example.com"
                     className="bg-background/50 border-accent/50 focus:border-cyan-400"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium mb-2 block">Subject</label>
-                <Input 
-                  placeholder="What's this about?" 
+                <Input
+                  placeholder="What's this about?"
                   className="bg-background/50 border-accent/50 focus:border-cyan-400"
                 />
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium mb-2 block">Message</label>
-                <Textarea 
+                <Textarea
                   placeholder="Tell me about your project or opportunity..."
                   rows={5}
                   className="bg-background/50 border-accent/50 focus:border-cyan-400 resize-none"
                 />
               </div>
-              
+
               <Button className="w-full glow-effect">
                 <Send className="mr-2 h-4 w-4" />
                 Send Message
