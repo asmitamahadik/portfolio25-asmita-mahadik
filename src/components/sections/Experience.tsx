@@ -12,7 +12,7 @@ const Experience = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto">
           <Card className="card-hover bg-gradient-card border-accent/20">
             <CardHeader className="pb-6">
@@ -32,38 +32,30 @@ const Experience = () => {
                 </div>
               </div>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-semibold mb-3 text-blue-400">Key Responsibilities</h4>
                   <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-muted-foreground text-sm">
-                        Collaborated in agile teams to enhance ReactJS applications and drive digital transformation initiatives
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-muted-foreground text-sm">
-                        Organized tasks and automated workflows via API integrations, supporting continuous process improvements
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-muted-foreground text-sm">
-                        Maintained thorough documentation to ensure knowledge transfer and project continuity
-                      </span>
-                    </li>
+                    {[
+                      { color: "bg-cyan-400", text: "Collaborated in agile teams to enhance ReactJS applications and drive digital transformation initiatives" },
+                      { color: "bg-blue-400", text: "Organized tasks and automated workflows via API integrations, supporting continuous process improvements" },
+                      { color: "bg-cyan-400", text: "Maintained thorough documentation to ensure knowledge transfer and project continuity" },
+                    ].map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <div className={`w-1.5 h-1.5 ${item.color} rounded-full mt-2 mr-3 flex-shrink-0`}></div>
+                        <span className="text-muted-foreground text-sm">{item.text}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold mb-3 text-purple-400">Technologies Used</h4>
                   <div className="flex flex-wrap gap-2">
                     {["ReactJS", "JavaScript", "API Integration", "Agile Methodology", "Documentation", "Process Automation"].map((tech, index) => (
-                      <Badge 
+                      <Badge
                         key={index}
                         variant="secondary"
                         className="bg-accent/40 hover:bg-accent/60 transition-colors duration-200"
@@ -74,13 +66,13 @@ const Experience = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-background/50 p-6 rounded-lg">
                 <h4 className="font-semibold mb-3 text-green-400">Impact & Achievements</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  During my internship, I successfully contributed to enhancing application performance through 
-                  strategic API integrations and workflow automation. My focus on agile methodologies and 
-                  continuous improvement helped streamline development processes, while comprehensive documentation 
+                  During my internship, I successfully contributed to enhancing application performance through
+                  strategic API integrations and workflow automation. My focus on agile methodologies and
+                  continuous improvement helped streamline development processes, while comprehensive documentation
                   ensured sustainable project growth and knowledge preservation for future development cycles.
                 </p>
               </div>

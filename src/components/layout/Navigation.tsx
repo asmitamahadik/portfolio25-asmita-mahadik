@@ -21,7 +21,7 @@ const Navigation = () => {
     { href: "#projects", label: "Projects" },
     { href: "#experience", label: "Experience" },
     { href: "#education", label: "Education" },
-    { href: "#contact", label: "Contact" }
+    { href: "#contact", label: "Contact" },
   ];
 
   const scrollToSection = (href: string) => {
@@ -38,12 +38,10 @@ const Navigation = () => {
     }`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="font-bold text-xl">
             <span className="gradient-text">Asmita</span>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <button
@@ -55,7 +53,7 @@ const Navigation = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></span>
               </button>
             ))}
-            <Button 
+            <Button
               onClick={() => scrollToSection("#contact")}
               className="glow-effect"
             >
@@ -63,7 +61,6 @@ const Navigation = () => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-lg bg-accent/20 hover:bg-accent/40 transition-colors duration-200"
@@ -72,7 +69,6 @@ const Navigation = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-t border-accent/20">
             <div className="container mx-auto px-6 py-4 space-y-4">
@@ -85,7 +81,7 @@ const Navigation = () => {
                   {item.label}
                 </button>
               ))}
-              <Button 
+              <Button
                 onClick={() => scrollToSection("#contact")}
                 className="w-full glow-effect"
               >

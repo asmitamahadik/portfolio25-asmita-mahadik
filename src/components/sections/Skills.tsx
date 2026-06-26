@@ -1,30 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { skillCategories } from "@/data/skills";
 
 const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Languages",
-      skills: ["Python", "Java", "JavaScript", "TypeScript", "C++", "SQL", "HTML", "CSS"],
-      color: "from-cyan-400 to-cyan-600"
-    },
-    {
-      title: "Frameworks",
-      skills: ["ReactJS", "Redux", "NodeJS", "ExpressJS", "Spring Boot", "Django"],
-      color: "from-blue-400 to-blue-600"
-    },
-    {
-      title: "Automation & AI",
-      skills: ["API Integration", "Generative AI (GPT)", "Automation Practices"],
-      color: "from-purple-400 to-purple-600"
-    },
-    {
-      title: "Cloud & Tools",
-      skills: ["GCP", "Git", "Jira", "Postman", "WordPress", "CI/CD Principles"],
-      color: "from-green-400 to-green-600"
-    }
-  ];
-
   return (
     <section id="skills" className="py-20 bg-muted/20">
       <div className="container mx-auto px-6">
@@ -37,7 +15,7 @@ const Skills = () => {
             A comprehensive toolkit of modern technologies and frameworks that power my development journey
           </p>
         </div>
-        
+
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skillCategories.map((category, index) => (
             <Card key={index} className="card-hover bg-gradient-card border-accent/20">
@@ -50,9 +28,9 @@ const Skills = () => {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, skillIndex) => (
-                    <Badge 
-                      key={skillIndex} 
-                      variant="secondary" 
+                    <Badge
+                      key={skillIndex}
+                      variant="secondary"
                       className="bg-accent/40 hover:bg-accent/60 transition-colors duration-200"
                     >
                       {skill}
@@ -63,7 +41,7 @@ const Skills = () => {
             </Card>
           ))}
         </div>
-        
+
         <div className="mt-16 text-center">
           <div className="bg-gradient-card p-8 rounded-2xl shadow-card max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold mb-6 gradient-text">Core Competencies</h3>
