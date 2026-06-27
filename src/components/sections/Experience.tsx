@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { useInView } from "@/hooks/use-in-view";
 
 const entries = [
@@ -63,55 +62,65 @@ function CardInner({ entry }: { entry: EntryType }) {
 function NodeDot({ isCurrent }: { isCurrent: boolean }) {
   return (
     <div
-      className="w-4 h-4 rounded-full border-2 border-white flex-shrink-0"
-      style={{
-        background: isCurrent ? "#fff" : "transparent",
-        boxShadow: isCurrent ? "0 0 20px #7C3AED, 0 0 40px rgba(124,58,237,0.4)" : "none",
-      }}
+      className="w-4 h-4 rounded-full flex-shrink-0"
+      style={
+        isCurrent
+          ? {
+              background: "#fff",
+              border: "2px solid #fff",
+              animation: "nodePulse 2s ease-in-out infinite",
+            }
+          : {
+              background: "transparent",
+              border: "2px solid #555",
+            }
+      }
     />
   );
 }
 
-function TimelineCard({ entry, index }: { entry: EntryType; index: number }) {
-  // threshold: 0.05 + rootMargin to trigger generously before fully in view
+function TimelineCard({
+  entry,
+  animDelay,
+}: {
+  entry: EntryType;
+  animDelay: string;
+}) {
   const [ref, inView] = useInView<HTMLDivElement>({
-    threshold: 0.05,
-    rootMargin: "0px 0px -80px 0px",
+    threshold: 0.15,
+    rootMargin: "0px 0px -30px 0px",
   });
   const isLeft = entry.side === "left";
+  // career-card-left / career-card-right use @keyframe animations (not transitions)
+  // so they always play from their `from` state when `in-view` is added
+  const cardClass = isLeft ? "career-card-left" : "career-card-right";
 
   return (
     <>
-      {/*
-        Desktop layout — ref lives ONLY here, on the visible desktop card.
-        Cards alternate left/right around the centre node.
-      */}
-      <div className="hidden md:flex items-center gap-8 mb-12">
-        {/* Left slot */}
+      {/* Desktop: alternating layout. ref lives only on the visible desktop card. */}
+      <div className="hidden md:flex items-center gap-8 mb-16">
         <div className="flex-1 flex justify-end pr-4">
           {isLeft ? (
             <div
               ref={ref}
-              className={`w-full max-w-sm slide-left${inView ? " in-view" : ""}`}
-              style={{ ...CARD_STYLE, transitionDelay: `${index * 0.1}s` }}
+              className={`w-full max-w-sm ${cardClass}${inView ? " in-view" : ""}`}
+              style={{ ...CARD_STYLE, animationDelay: animDelay }}
             >
               <CardInner entry={entry} />
             </div>
           ) : null}
         </div>
 
-        {/* Centre node */}
         <div className="flex-shrink-0 flex items-center justify-center w-4">
           <NodeDot isCurrent={entry.isCurrent} />
         </div>
 
-        {/* Right slot */}
         <div className="flex-1 flex justify-start pl-4">
           {!isLeft ? (
             <div
               ref={ref}
-              className={`w-full max-w-sm slide-right${inView ? " in-view" : ""}`}
-              style={{ ...CARD_STYLE, transitionDelay: `${index * 0.1}s` }}
+              className={`w-full max-w-sm ${cardClass}${inView ? " in-view" : ""}`}
+              style={{ ...CARD_STYLE, animationDelay: animDelay }}
             >
               <CardInner entry={entry} />
             </div>
@@ -119,10 +128,7 @@ function TimelineCard({ entry, index }: { entry: EntryType; index: number }) {
         </div>
       </div>
 
-      {/*
-        Mobile layout — NO ref, NO animation class → always visible.
-        Node on left, card spanning the remaining width.
-      */}
+      {/* Mobile: always visible, no animation needed */}
       <div className="flex md:hidden items-start gap-4 mb-8">
         <div className="flex-shrink-0 mt-1">
           <NodeDot isCurrent={entry.isCurrent} />
@@ -136,30 +142,17 @@ function TimelineCard({ entry, index }: { entry: EntryType; index: number }) {
 }
 
 const Experience = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [lineProgress, setLineProgress] = useState(0);
-  const [headerRef, headerInView] = useInView<HTMLDivElement>();
-
-  useEffect(() => {
-    const onScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const progress = Math.max(
-        0,
-        Math.min(1, (window.innerHeight - rect.top) / section.offsetHeight)
-      );
-      setLineProgress(progress);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // headerRef drives both the heading fade AND the timeline line draw.
+  // When the heading comes into view → heading fades (immediately),
+  // line starts drawing (after 0.3 s CSS delay defined in .timeline-line-fill.in-view).
+  const [headerRef, headerInView] = useInView<HTMLDivElement>({
+    threshold: 0.3,
+  });
 
   return (
-    <section id="career" ref={sectionRef} className="py-24 px-6">
+    <section id="career" className="py-24 px-6">
       <div className="container mx-auto max-w-4xl">
-        {/* Header */}
+        {/* Heading — fades in via section-fade-up transition */}
         <div
           ref={headerRef}
           className={`text-center mb-20 section-fade-up${headerInView ? " in-view" : ""}`}
@@ -174,30 +167,34 @@ const Experience = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Centre line — desktop only */}
+          {/* Static background track (full height, always visible) */}
           <div
             className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px hidden md:block"
             style={{ background: "#222" }}
-          >
-            <div
-              className="w-full rounded-full"
-              style={{
-                height: `${lineProgress * 100}%`,
-                background: "#7C3AED",
-                boxShadow: "0 0 8px #7C3AED",
-                transition: "height 0.1s linear",
-              }}
-            />
-          </div>
+          />
 
-          {/* Mobile vertical line */}
+          {/* Animated purple fill — grows via @keyframe timelineLineGrow */}
+          <div
+            className={`absolute left-1/2 top-0 -translate-x-1/2 w-px hidden md:block rounded-full timeline-line-fill${headerInView ? " in-view" : ""}`}
+            style={{
+              background: "#7C3AED",
+              boxShadow: "0 0 8px #7C3AED",
+            }}
+          />
+
+          {/* Mobile track */}
           <div
             className="absolute left-2 top-0 bottom-0 w-px md:hidden"
             style={{ background: "#333" }}
           />
 
-          {entries.map((entry, i) => (
-            <TimelineCard key={i} entry={entry} index={i} />
+          {/* Left card: no extra delay. Right card: 0.2 s stagger. */}
+          {entries.map((entry) => (
+            <TimelineCard
+              key={entry.company}
+              entry={entry}
+              animDelay={entry.side === "left" ? "0s" : "0.2s"}
+            />
           ))}
         </div>
       </div>

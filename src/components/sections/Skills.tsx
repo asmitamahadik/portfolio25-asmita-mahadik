@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useInView } from "@/hooks/use-in-view";
 
 const skillBars = [
-  { name: "HTML / CSS", percent: 90 },
   { name: "React.js / Next.js", percent: 88 },
   { name: "TypeScript & JavaScript", percent: 85 },
   { name: "Node.js / Express", percent: 82 },

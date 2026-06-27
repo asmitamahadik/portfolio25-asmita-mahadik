@@ -56,7 +56,7 @@ const Hero = () => {
           {/* Right 40% */}
           <div className="lg:col-span-2 flex justify-center lg:justify-end">
             <div
-              className="rounded-full flex items-center justify-center select-none"
+              className="rounded-full overflow-hidden flex items-center justify-center select-none flex-shrink-0"
               style={{
                 width: "clamp(200px, 28vw, 320px)",
                 height: "clamp(200px, 28vw, 320px)",
@@ -65,9 +65,20 @@ const Hero = () => {
                   "0 0 60px rgba(255,45,120,0.2), 0 0 120px rgba(255,45,120,0.06)",
               }}
             >
+              <img
+                src="/photo.jpeg"
+                alt="Asmita Mahadik"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "center 18%" }}
+                onError={(e) => {
+                  // Fallback to initials if image not found
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.nextElementSibling?.removeAttribute("style");
+                }}
+              />
               <span
                 className="font-bold text-white"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
+                style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", display: "none" }}
               >
                 AM
               </span>
