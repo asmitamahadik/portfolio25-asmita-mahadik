@@ -1,90 +1,33 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, Database, Globe, Zap } from "lucide-react";
-
-const highlights = [
-  {
-    icon: Code,
-    title: "Full-Stack Development",
-    description: "Expertise in modern web technologies and frameworks",
-  },
-  {
-    icon: Database,
-    title: "API Integration",
-    description: "Streamlining workflows with intelligent automation",
-  },
-  {
-    icon: Globe,
-    title: "Digital Transformation",
-    description: "Driving innovation in financial and enterprise products",
-  },
-  {
-    icon: Zap,
-    title: "Process Automation",
-    description: "Optimizing performance through automation solutions",
-  },
-];
+import { useInView } from "@/hooks/use-in-view";
 
 const About = () => {
+  const [ref, inView] = useInView<HTMLDivElement>();
+
   return (
-    <section id="about" className="py-20 bg-background relative">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            About <span className="gradient-text">Me</span>
+    <section id="about" className="py-24 px-6">
+      <div className="container mx-auto max-w-4xl">
+        <div
+          ref={ref}
+          className={`section-fade-up ${inView ? "in-view" : ""}`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            About Me
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-6">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              As a passionate Front-end and Full-stack Developer, I thrive in agile environments
-              where digital transformation meets innovation. My expertise lies in creating scalable
-              web applications that not only deliver exceptional user experiences but also
-              streamline complex workflows through intelligent automation.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              With a strong foundation in modern web technologies and a keen interest in
-              emerging fields like generative AI and RPA, I'm constantly pushing the boundaries
-              of what's possible in web development. My goal is to support innovative financial
-              products and end-to-end automation solutions that make a real impact.
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="bg-gradient-card p-8 rounded-2xl shadow-card">
-              <h3 className="text-2xl font-bold mb-4 gradient-text">Professional Focus</h3>
-              <ul className="space-y-3 text-muted-foreground">
-                {[
-                  { color: "bg-cyan-400", label: "Scalable Web Applications" },
-                  { color: "bg-blue-400", label: "API Integration & Automation" },
-                  { color: "bg-cyan-400", label: "Generative AI Solutions" },
-                  { color: "bg-blue-400", label: "Digital Transformation" },
-                ].map((item) => (
-                  <li key={item.label} className="flex items-center">
-                    <div className={`w-2 h-2 ${item.color} rounded-full mr-3`}></div>
-                    {item.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {highlights.map((item, index) => (
-            <Card key={index} className="card-hover bg-gradient-card border-accent/20">
-              <CardHeader className="pb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-lg flex items-center justify-center mb-4">
-                  <item.icon className="h-6 w-6 text-background" />
-                </div>
-                <CardTitle className="text-lg">{item.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{item.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+          <div
+            className="w-12 h-1 rounded-full mb-8"
+            style={{ background: "#FF2D78" }}
+          />
+          <p
+            className="text-lg leading-relaxed"
+            style={{ color: "#A0A0A0" }}
+          >
+            Front-end and full-stack developer with experience building scalable
+            web applications in agile environments, integrating APIs, and automating
+            workflows. Passionate about applying skills in generative AI and
+            automation to build innovative, impactful products. With a strong
+            foundation in modern web technologies, I thrive on turning complex
+            problems into elegant, performant solutions that create real-world impact.
+          </p>
         </div>
       </div>
     </section>

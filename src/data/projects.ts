@@ -1,18 +1,19 @@
 export interface Project {
   title: string;
+  subtitle: string;
+  year: string;
   description: string;
   technologies: string[];
-  highlights: string[];
-  gradient: string;
-  liveUrl?: string;
-  sourceUrl?: string;
+  moreInfoUrl?: string;
 }
 
 export const projects: Project[] = [
   {
-    title: "Buyosphere - E-Commerce Platform",
+    title: "Buyosphere",
+    subtitle: "E-Commerce Web Application",
+    year: "2024",
     description:
-      "A robust, API-driven e-commerce platform that embraces digital transformation by automating secure user authentication and payment processing. Features intelligent process automation to enhance performance and deliver a seamless customer experience.",
+      "Full-featured secure e-commerce platform with seamless authentication, real-time cart management, and integrated payment processing. API-driven architecture embracing digital transformation through intelligent process automation.",
     technologies: [
       "TypeScript",
       "MongoDB",
@@ -23,18 +24,13 @@ export const projects: Project[] = [
       "Firebase",
       "Stripe",
     ],
-    highlights: [
-      "Secure authentication & payment processing",
-      "Intelligent process automation",
-      "Seamless customer experience",
-      "Digital transformation integration",
-    ],
-    gradient: "from-cyan-400 to-blue-500",
   },
   {
-    title: "Plethora - Training Management System",
+    title: "Plethora",
+    subtitle: "Training & Placement Management System",
+    year: "2023",
     description:
-      "A comprehensive system that streamlined training and placement processes by automating workflows and reducing manual intervention. Reflects commitment to agile development and digital transformation.",
+      "Centralized system automating student-company interactions with role-based access for students, faculty, and recruiters. Streamlined placement workflows reducing administrative overhead.",
     technologies: [
       "ReactJS",
       "Ant Design",
@@ -44,25 +40,14 @@ export const projects: Project[] = [
       "Spring Security",
       "JWT Authentication",
     ],
-    highlights: [
-      "Automated workflow management",
-      "Reduced manual intervention",
-      "Secure communication protocols",
-      "Agile development approach",
-    ],
-    gradient: "from-purple-400 to-pink-500",
   },
   {
-    title: "Portfolio Website",
+    title: "Sorting Visualiser",
+    subtitle: "Algorithm Visualization Tool",
+    year: "2024",
     description:
-      "A dynamic portfolio website that showcases technical skills while employing automated inquiry routing to improve user engagement. Highlights passion for continuous process improvement and customer-centric digital experiences.",
-    technologies: ["HTML", "CSS", "ReactJS"],
-    highlights: [
-      "Automated inquiry routing",
-      "Enhanced user engagement",
-      "Continuous process improvement",
-      "Customer-centric design",
-    ],
-    gradient: "from-green-400 to-teal-500",
+      "An interactive web application that visually demonstrates how classic sorting algorithms work in real time. Users can watch Bubble Sort, Selection Sort, Insertion Sort, and Merge Sort animate step-by-step on randomized data sets, with controls for speed and array size.",
+    technologies: ["JavaScript", "React", "HTML", "CSS"],
+    moreInfoUrl: "https://github.com/asmitamahadik/sorting-visualiser",
   },
 ];

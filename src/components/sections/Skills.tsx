@@ -1,68 +1,236 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { skillCategories } from "@/data/skills";
+import { useEffect, useState } from "react";
+import { useInView } from "@/hooks/use-in-view";
+
+const skillBars = [
+  { name: "HTML / CSS", percent: 90 },
+  { name: "React.js / Next.js", percent: 88 },
+  { name: "TypeScript & JavaScript", percent: 85 },
+  { name: "Node.js / Express", percent: 82 },
+  { name: "SQL / MongoDB", percent: 78 },
+  { name: "Python", percent: 75 },
+  { name: "Java / Spring Boot", percent: 72 },
+];
+
+const softSkills = [
+  "Agile Development",
+  "Problem Solving",
+  "Digital Transformation",
+  "Process Automation",
+  "Team Collaboration",
+];
+
+const additionalTech = [
+  "C++", "GCP", "Git", "Jira", "Postman", "Django",
+  "Redux", "Zustand", "Jest", "CI/CD", "Firebase", "JWT",
+];
+
+const coursework = [
+  "Data Structures & Algorithms",
+  "Software Engineering",
+  "DBMS",
+  "Web Technologies",
+  "OOP",
+];
+
+function SkillBar({
+  name,
+  percent,
+  delay,
+  trigger,
+}: {
+  name: string;
+  percent: number;
+  delay: number;
+  trigger: boolean;
+}) {
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (!trigger) return;
+    const timer = setTimeout(() => setWidth(percent), delay);
+    return () => clearTimeout(timer);
+  }, [trigger, percent, delay]);
+
+  return (
+    <div className="mb-5">
+      <div className="flex justify-between mb-2">
+        <span className="text-sm text-white font-medium">{name}</span>
+        <span className="text-sm text-white font-medium">{percent}%</span>
+      </div>
+      <div
+        className="h-1.5 rounded-full relative overflow-visible"
+        style={{ background: "#222" }}
+      >
+        <div
+          className="h-full rounded-full relative"
+          style={{
+            width: `${width}%`,
+            background: "#fff",
+            transition: "width 1000ms ease-out",
+          }}
+        >
+          {width > 0 && (
+            <div
+              className="absolute top-1/2 w-3 h-3 rounded-full"
+              style={{
+                right: "-6px",
+                transform: "translateY(-50%)",
+                background: "#FF2D78",
+                boxShadow: "0 0 8px #FF2D78",
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const Skills = () => {
+  const [techRef, techInView] = useInView<HTMLDivElement>();
+  const [softRef, softInView] = useInView<HTMLDivElement>();
+  const [eduRef, eduInView] = useInView<HTMLDivElement>();
+
   return (
-    <section id="skills" className="py-20 bg-muted/20">
-      <div className="container mx-auto px-6">
+    <section id="skills" className="py-24 px-6">
+      <div className="container mx-auto max-w-6xl">
+        {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Technical <span className="gradient-text">Skills</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Skills &amp; <span className="gradient-text">Education</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
-          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-            A comprehensive toolkit of modern technologies and frameworks that power my development journey
-          </p>
+          <div
+            className="w-12 h-1 rounded-full mx-auto"
+            style={{ background: "#FF2D78" }}
+          />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {skillCategories.map((category, index) => (
-            <Card key={index} className="card-hover bg-gradient-card border-accent/20">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-xl flex items-center">
-                  <div className={`w-4 h-4 bg-gradient-to-r ${category.color} rounded-full mr-3`}></div>
-                  {category.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill, skillIndex) => (
-                    <Badge
-                      key={skillIndex}
-                      variant="secondary"
-                      className="bg-accent/40 hover:bg-accent/60 transition-colors duration-200"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
+        {/* Two cards side by side */}
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          {/* Technical Skills */}
+          <div
+            ref={techRef}
+            className={`rounded-xl p-6 section-fade-up ${techInView ? "in-view" : ""}`}
+            style={{ background: "#111", border: "1px solid #222" }}
+          >
+            <h3 className="text-xl font-bold text-white mb-6">Technical Skills</h3>
+            {skillBars.map((skill, i) => (
+              <SkillBar
+                key={skill.name}
+                name={skill.name}
+                percent={skill.percent}
+                delay={i * 120}
+                trigger={techInView}
+              />
+            ))}
+          </div>
+
+          {/* Soft Skills */}
+          <div
+            ref={softRef}
+            className={`rounded-xl p-6 section-fade-up ${softInView ? "in-view" : ""}`}
+            style={{
+              background: "#111",
+              border: "1px solid #222",
+              transitionDelay: "0.15s",
+            }}
+          >
+            <h3 className="text-xl font-bold text-white mb-6">Soft Skills</h3>
+            <div className="flex flex-wrap gap-3 mb-8">
+              {softSkills.map((skill) => (
+                <span
+                  key={skill}
+                  className="text-white rounded-full text-sm font-medium"
+                  style={{ background: "#FF2D78", padding: "8px 18px" }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+
+            <div>
+              <p
+                className="text-xs font-semibold mb-3"
+                style={{
+                  color: "#A0A0A0",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                }}
+              >
+                Also proficient in
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {additionalTech.map((t) => (
+                  <span
+                    key={t}
+                    className="text-xs rounded-full"
+                    style={{
+                      border: "1px solid #333",
+                      color: "#A0A0A0",
+                      padding: "4px 12px",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Education card */}
+        <div
+          ref={eduRef}
+          className={`rounded-xl p-8 section-fade-up ${eduInView ? "in-view" : ""}`}
+          style={{
+            background: "#111",
+            border: "1px solid #222",
+            transitionDelay: "0.1s",
+          }}
+        >
+          <div className="grid md:grid-cols-3 gap-8 items-center">
+            <div className="md:col-span-2">
+              <p
+                className="text-xs font-semibold mb-3"
+                style={{
+                  color: "#FF2D78",
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Education
+              </p>
+              <h3 className="text-xl font-bold text-white mb-1">
+                Bachelor of Engineering — Computer Engineering
+              </h3>
+              <p className="text-sm mb-5" style={{ color: "#A0A0A0" }}>
+                Sinhgad College of Engineering, Pune — SPPU | 2019 – 2023
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {coursework.map((c) => (
+                  <span
+                    key={c}
+                    className="text-xs rounded-full"
+                    style={{
+                      border: "1px solid #333",
+                      color: "#A0A0A0",
+                      padding: "4px 12px",
+                    }}
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex md:justify-end">
+              <div
+                className="rounded-xl p-6 text-center"
+                style={{ background: "#0a0a0a", border: "1px solid #222" }}
+              >
+                <div className="text-4xl font-bold text-white mb-1">7.67</div>
+                <div className="text-sm" style={{ color: "#A0A0A0" }}>
+                  CGPA
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-card p-8 rounded-2xl shadow-card max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6 gradient-text">Core Competencies</h3>
-            <div className="grid md:grid-cols-3 gap-6 text-left">
-              <div>
-                <h4 className="font-semibold mb-3 text-cyan-400">Frontend Excellence</h4>
-                <p className="text-muted-foreground text-sm">
-                  Creating responsive, interactive user interfaces with modern frameworks and best practices
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 text-blue-400">Backend Proficiency</h4>
-                <p className="text-muted-foreground text-sm">
-                  Building robust server-side applications with efficient database management and API design
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-3 text-purple-400">Automation & AI</h4>
-                <p className="text-muted-foreground text-sm">
-                  Implementing intelligent automation solutions and integrating AI capabilities for enhanced functionality
-                </p>
               </div>
             </div>
           </div>

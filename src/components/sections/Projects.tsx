@@ -1,95 +1,111 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 import { projects } from "@/data/projects";
 
-const Projects = () => {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof projects)[0];
+  index: number;
+}) {
+  const [ref, inView] = useInView<HTMLDivElement>({ threshold: 0.1 });
+
   return (
-    <section id="projects" className="py-20 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
-          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Showcasing innovative solutions that demonstrate my expertise in full-stack development and automation
+    <div
+      ref={ref}
+      className={`rounded-xl p-7 section-fade-up ${inView ? "in-view" : ""}`}
+      style={{
+        background: "#111",
+        border: "1px solid #222",
+        maxWidth: 800,
+        margin: "0 auto 20px",
+        transitionDelay: `${index * 0.1}s`,
+      }}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <h3 className="text-xl font-bold text-white mb-0.5">
+            {project.title}
+          </h3>
+          <p className="text-sm font-medium" style={{ color: "#A0A0A0" }}>
+            {project.subtitle}
           </p>
         </div>
-
-        <div className="grid lg:grid-cols-1 gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
-            <Card key={index} className="card-hover bg-gradient-card border-accent/20 overflow-hidden">
-              <div className="grid lg:grid-cols-2 gap-0">
-                <CardHeader className="p-8">
-                  <div className={`w-full h-2 bg-gradient-to-r ${project.gradient} rounded-full mb-6`}></div>
-                  <CardTitle className="text-2xl mb-4">{project.title}</CardTitle>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold mb-2 text-cyan-400">Key Highlights</h4>
-                      <ul className="space-y-2">
-                        {project.highlights.map((highlight, idx) => (
-                          <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                            <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full mr-3"></div>
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="flex gap-3 pt-4">
-                      {project.liveUrl ? (
-                        <Button size="sm" className="glow-effect" asChild>
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Live Demo
-                          </a>
-                        </Button>
-                      ) : null}
-                      {project.sourceUrl ? (
-                        <Button variant="outline" size="sm" className="border-accent/50" asChild>
-                          <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-                            <Github className="mr-2 h-4 w-4" />
-                            Source Code
-                          </a>
-                        </Button>
-                      ) : null}
-                    </div>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="p-8 bg-accent/10">
-                  <h4 className="font-semibold mb-4 text-blue-400">Technology Stack</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech, techIndex) => (
-                      <Badge
-                        key={techIndex}
-                        variant="secondary"
-                        className="bg-accent/40 hover:bg-accent/60 transition-colors duration-200"
-                      >
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 p-4 bg-background/50 rounded-lg">
-                    <h5 className="font-medium mb-2 text-sm">Project Impact</h5>
-                    <p className="text-xs text-muted-foreground">
-                      This project demonstrates my ability to create scalable solutions that integrate
-                      modern technologies with business automation needs, resulting in enhanced user
-                      experiences and operational efficiency.
-                    </p>
-                  </div>
-                </CardContent>
-              </div>
-            </Card>
-          ))}
+        <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+          <span className="text-xs" style={{ color: "#A0A0A0" }}>
+            {project.year}
+          </span>
+          <span style={{ color: "#444", fontSize: 22, lineHeight: 1 }}>⠿</span>
         </div>
+      </div>
+
+      <p
+        className="text-sm leading-relaxed mb-5"
+        style={{ color: "#A0A0A0" }}
+      >
+        {project.description}
+      </p>
+
+      <div className="flex flex-wrap gap-2 mb-5">
+        {project.technologies.map((tech) => (
+          <span
+            key={tech}
+            className="text-xs rounded-full"
+            style={{
+              border: "1px solid #333",
+              color: "#A0A0A0",
+              padding: "4px 12px",
+            }}
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      {project.moreInfoUrl ? (
+        <a
+          href={project.moreInfoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-medium transition-opacity hover:opacity-70"
+          style={{ color: "#FF2D78" }}
+        >
+          More Info →
+        </a>
+      ) : (
+        <span
+          className="text-sm font-medium opacity-40 cursor-default"
+          style={{ color: "#FF2D78" }}
+        >
+          More Info →
+        </span>
+      )}
+    </div>
+  );
+}
+
+const Projects = () => {
+  const [ref, inView] = useInView<HTMLDivElement>();
+
+  return (
+    <section id="projects" className="py-24 px-6">
+      <div className="container mx-auto max-w-5xl">
+        <div
+          ref={ref}
+          className={`text-center mb-16 section-fade-up ${inView ? "in-view" : ""}`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Projects
+          </h2>
+          <div
+            className="w-12 h-1 rounded-full mx-auto"
+            style={{ background: "#FF2D78" }}
+          />
+        </div>
+
+        {projects.map((project, i) => (
+          <ProjectCard key={project.title} project={project} index={i} />
+        ))}
       </div>
     </section>
   );

@@ -1,86 +1,78 @@
-import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Download } from "lucide-react";
+const pills = [
+  "React.js",
+  "Node.js",
+  "TypeScript",
+  "Python",
+  "Gen AI",
+  "Spring Boot",
+];
 
 const Hero = () => {
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section className="min-h-screen bg-gradient-hero flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
+    <section
+      id="home"
+      className="min-h-screen flex items-center pt-24 pb-20 px-6"
+    >
+      <div className="container mx-auto max-w-6xl">
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          {/* Left 60% */}
+          <div className="lg:col-span-3 space-y-6">
+            <h1
+              className="font-bold text-white leading-[1.05]"
+              style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)" }}
+            >
+              Asmita
+              <br />
+              Mahadik
+            </h1>
+            <p
+              className="text-xl md:text-2xl font-medium"
+              style={{ color: "#A0A0A0" }}
+            >
+              Front-end &amp; Full-Stack Developer
+            </p>
+            <p
+              className="text-base leading-relaxed max-w-lg"
+              style={{ color: "#A0A0A0" }}
+            >
+              Front-end and full-stack developer with experience building scalable
+              web applications in agile environments, integrating APIs, and
+              automating workflows. Passionate about applying skills in generative
+              AI and automation to build innovative, impactful products.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {pills.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-white rounded-full text-sm font-medium"
+                  style={{ background: "#FF2D78", padding: "6px 16px" }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
 
-      <div className="container mx-auto px-6 text-center relative z-10">
-        <div className="floating">
-          <h1 className="text-6xl md:text-7xl font-bold mb-6">
-            <span className="gradient-text">Asmita</span>
-            <br />
-            <span className="text-primary">Mahadik</span>
-          </h1>
-        </div>
-
-        <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-3xl mx-auto">
-          Front-end & Full-stack Developer
-        </p>
-
-        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Experienced in agile environments, digital transformation, and process automation.
-          Passionate about creating scalable web applications and intelligent automation solutions.
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <Button
-            variant="default"
-            size="lg"
-            className="glow-effect"
-            onClick={() => scrollToSection("#contact")}
-          >
-            <Mail className="mr-2 h-5 w-5" />
-            Contact Me
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-primary/50 hover:border-primary"
-            onClick={() => scrollToSection("#projects")}
-          >
-            View Projects
-          </Button>
-          <Button variant="outline" size="lg" className="border-primary/50 hover:border-primary" asChild>
-            <a href="/resume.pdf" download="Asmita_Mahadik_Resume.pdf">
-              <Download className="mr-2 h-5 w-5" />
-              Download Resume
-            </a>
-          </Button>
-        </div>
-
-        <div className="flex justify-center space-x-6">
-          <a
-            href="https://github.com/asmitamahadik"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-full bg-accent/20 hover:bg-accent/40 transition-all duration-300 hover:scale-110 glow-effect"
-          >
-            <Github className="h-6 w-6" />
-          </a>
-          <a
-            href="https://linkedin.com/in/asmita-mahadik-08abb6179"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-full bg-accent/20 hover:bg-accent/40 transition-all duration-300 hover:scale-110 glow-effect"
-          >
-            <Linkedin className="h-6 w-6" />
-          </a>
-          <a
-            href="mailto:asmitamahadik24@gmail.com"
-            className="p-3 rounded-full bg-accent/20 hover:bg-accent/40 transition-all duration-300 hover:scale-110 glow-effect"
-          >
-            <Mail className="h-6 w-6" />
-          </a>
+          {/* Right 40% */}
+          <div className="lg:col-span-2 flex justify-center lg:justify-end">
+            <div
+              className="rounded-full flex items-center justify-center select-none"
+              style={{
+                width: "clamp(200px, 28vw, 320px)",
+                height: "clamp(200px, 28vw, 320px)",
+                background: "#111",
+                boxShadow:
+                  "0 0 60px rgba(255,45,120,0.2), 0 0 120px rgba(255,45,120,0.06)",
+              }}
+            >
+              <span
+                className="font-bold text-white"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
+              >
+                AM
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
