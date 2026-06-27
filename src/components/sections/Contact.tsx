@@ -1,8 +1,24 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Github, Linkedin, Send, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
+// Sign up at https://formspree.io and replace YOUR_FORM_ID with your form ID
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+const formSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  subject: z.string().min(2, "Subject must be at least 2 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const contactInfo = [
   {
@@ -33,6 +49,31 @@ const availability = [
 ];
 
 const Contact = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(formSchema) });
+
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        toast.success("Message sent! I'll get back to you soon.");
+        reset();
+      } else {
+        toast.error("Something went wrong. Please try emailing me directly.");
+      }
+    } catch {
+      toast.error("Network error. Please try emailing me directly.");
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-muted/20">
       <div className="container mx-auto px-6">
@@ -69,8 +110,8 @@ const Contact = () => {
                         <h4 className="font-semibold text-sm">{item.title}</h4>
                         <a
                           href={item.href}
-                          target={item.href.startsWith('http') ? '_blank' : undefined}
-                          rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          target={item.href.startsWith("http") ? "_blank" : undefined}
+                          rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                           className="text-muted-foreground text-sm hover:text-cyan-400 transition-colors duration-200 break-all"
                         >
                           {item.value}
@@ -99,46 +140,72 @@ const Contact = () => {
             <CardHeader>
               <CardTitle className="text-xl">Send a Message</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Name</label>
-                  <Input
-                    placeholder="Your name"
-                    className="bg-background/50 border-accent/50 focus:border-cyan-400"
-                  />
+            <CardContent>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="text-sm font-medium mb-2 block">Name</label>
+                    <Input
+                      id="name"
+                      placeholder="Your name"
+                      className="bg-background/50 border-accent/50 focus:border-cyan-400"
+                      {...register("name")}
+                    />
+                    {errors.name && (
+                      <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="text-sm font-medium mb-2 block">Email</label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      className="bg-background/50 border-accent/50 focus:border-cyan-400"
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
+                    )}
+                  </div>
                 </div>
+
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Email</label>
+                  <label htmlFor="subject" className="text-sm font-medium mb-2 block">Subject</label>
                   <Input
-                    type="email"
-                    placeholder="your.email@example.com"
+                    id="subject"
+                    placeholder="What's this about?"
                     className="bg-background/50 border-accent/50 focus:border-cyan-400"
+                    {...register("subject")}
                   />
+                  {errors.subject && (
+                    <p className="text-destructive text-xs mt-1">{errors.subject.message}</p>
+                  )}
                 </div>
-              </div>
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Subject</label>
-                <Input
-                  placeholder="What's this about?"
-                  className="bg-background/50 border-accent/50 focus:border-cyan-400"
-                />
-              </div>
+                <div>
+                  <label htmlFor="message" className="text-sm font-medium mb-2 block">Message</label>
+                  <Textarea
+                    id="message"
+                    placeholder="Tell me about your project or opportunity..."
+                    rows={5}
+                    className="bg-background/50 border-accent/50 focus:border-cyan-400 resize-none"
+                    {...register("message")}
+                  />
+                  {errors.message && (
+                    <p className="text-destructive text-xs mt-1">{errors.message.message}</p>
+                  )}
+                </div>
 
-              <div>
-                <label className="text-sm font-medium mb-2 block">Message</label>
-                <Textarea
-                  placeholder="Tell me about your project or opportunity..."
-                  rows={5}
-                  className="bg-background/50 border-accent/50 focus:border-cyan-400 resize-none"
-                />
-              </div>
-
-              <Button className="w-full glow-effect">
-                <Send className="mr-2 h-4 w-4" />
-                Send Message
-              </Button>
+                <Button type="submit" className="w-full glow-effect" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="mr-2 h-4 w-4" />
+                  )}
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </div>

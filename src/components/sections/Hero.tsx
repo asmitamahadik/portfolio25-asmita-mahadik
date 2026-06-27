@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, Download } from "lucide-react";
 
 const Hero = () => {
   const scrollToSection = (href: string) => {
@@ -49,6 +49,12 @@ const Hero = () => {
             onClick={() => scrollToSection("#projects")}
           >
             View Projects
+          </Button>
+          <Button variant="outline" size="lg" className="border-primary/50 hover:border-primary" asChild>
+            <a href="/resume.pdf" download="Asmita_Mahadik_Resume.pdf">
+              <Download className="mr-2 h-5 w-5" />
+              Download Resume
+            </a>
           </Button>
         </div>
 
