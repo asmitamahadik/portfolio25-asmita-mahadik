@@ -38,8 +38,8 @@ const FloatingDock = () => {
     <div
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-5 py-3"
       style={{
-        background: "rgba(15,15,15,0.92)",
-        border: "1px solid #333",
+        background: "var(--color-dock-bg)",
+        border: "1px solid var(--color-dock-border)",
         borderRadius: "40px",
         backdropFilter: "blur(12px)",
       }}
@@ -65,7 +65,7 @@ const FloatingDock = () => {
               style={{
                 width: 20,
                 height: 20,
-                color: isActive ? "#FF2D78" : "#fff",
+                color: isActive ? "#FF2D78" : "hsl(var(--foreground))",
               }}
             />
             {isActive && (

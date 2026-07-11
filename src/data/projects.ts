@@ -24,6 +24,7 @@ export const projects: Project[] = [
       "Firebase",
       "Stripe",
     ],
+    moreInfoUrl: "https://mern-ecom-frontend-ruddy.vercel.app",
   },
   {
     title: "Plethora",
@@ -48,6 +49,15 @@ export const projects: Project[] = [
     description:
       "An interactive web application that visually demonstrates how classic sorting algorithms work in real time. Users can watch Bubble Sort, Selection Sort, Insertion Sort, and Merge Sort animate step-by-step on randomized data sets, with controls for speed and array size.",
     technologies: ["JavaScript", "React", "HTML", "CSS"],
-    moreInfoUrl: "https://github.com/asmitamahadik/sorting-visualiser",
+    moreInfoUrl: "https://asmitamahadik.github.io/sorting-visualiser/",
+  },
+  {
+    title: "Café Noir",
+    subtitle: "Interactive Restaurant Menu & Ordering Experience",
+    year: "2025",
+    description:
+      "A fully responsive digital menu app for a fictional café with a time-of-day adaptive theme that shifts the visual mood across breakfast, lunch, and dinner. Features a \"Surprise Me\" chef's special reveal, a tray/cart system for building orders, and a multi-step checkout flow with confetti celebration on completion.",
+    technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Framer Motion"],
+    moreInfoUrl: "https://cafe-noir-delta.vercel.app",
   },
 ];

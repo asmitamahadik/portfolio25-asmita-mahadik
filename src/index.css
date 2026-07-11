@@ -4,36 +4,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
+    /* ── shadcn color tokens (dark = default) ─────────────── */
+    --background: 0 0% 4%;   /* #0a0a0a — slightly off-black like reference */
     --foreground: 0 0% 100%;
-
     --card: 0 0% 7%;
     --card-foreground: 0 0% 100%;
-
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 100%;
-
     --primary: 340 100% 59%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 262 83% 58%;
     --secondary-foreground: 0 0% 100%;
-
     --muted: 0 0% 13%;
     --muted-foreground: 0 0% 63%;
-
     --accent: 0 0% 13%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 0 0% 13%;
     --input: 0 0% 13%;
     --ring: 340 100% 59%;
-
     --radius: 0.75rem;
-
     --sidebar-background: 0 0% 7%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 340 100% 59%;
@@ -42,9 +33,30 @@
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 13%;
     --sidebar-ring: 340 100% 59%;
+
+    /* ── Portfolio-specific theme tokens (dark) ───────────── */
+    --color-surface:        #1a1a1a;   /* card backgrounds          */
+    --color-surface-raised: #222222;   /* icon wells                */
+    --color-surface-sunken: #111111;   /* inset areas (CGPA box)    */
+    --color-border:         #2a2a2a;   /* strong borders            */
+    --color-border-soft:    #333333;   /* tag / subtle borders      */
+    --color-nav-bg:         rgba(20, 20, 20, 0.92);
+    --color-nav-border:     rgba(255, 255, 255, 0.08);
+    --color-particle:       rgba(255, 255, 255, 0.35);
+    --color-glow:           rgba(255, 45, 120, 0.10);
+    --color-dock-bg:        rgba(15, 15, 15, 0.92);
+    --color-dock-border:    #333333;
+    --color-timeline-track: #222222;
+    --color-mobile-track:   #333333;
+    --color-progress-track: #222222;
+    --color-progress-fill:  #FFFFFF;   /* white bar on dark bg      */
+    --color-node-active:    #FFFFFF;
+    --color-contact-outer:  #333333;
+    --color-stat-card:      #1f1f1f;
   }
 
   .light {
+    /* ── shadcn overrides ─────────────────────────────────── */
     --background: 0 0% 97%;
     --foreground: 0 0% 9%;
     --card: 0 0% 100%;
@@ -52,18 +64,36 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
     --muted: 0 0% 92%;
-    --muted-foreground: 0 0% 40%;
+    --muted-foreground: 0 0% 38%;
     --accent: 0 0% 92%;
     --accent-foreground: 0 0% 9%;
     --border: 0 0% 87%;
     --input: 0 0% 87%;
+
+    /* ── Portfolio-specific overrides (light) ─────────────── */
+    --color-particle:       rgba(0, 0, 0, 0.12);
+    --color-glow:           rgba(255, 45, 120, 0.06);
+    --color-stat-card:      #F5F5F5;
+    --color-surface:        #FFFFFF;
+    --color-surface-raised: #F2F2F2;
+    --color-surface-sunken: #F5F5F5;
+    --color-border:         #E2E2E2;
+    --color-border-soft:    #D0D0D0;
+    --color-nav-bg:         rgba(255, 255, 255, 0.92);
+    --color-nav-border:     #E2E2E2;
+    --color-dock-bg:        rgba(248, 248, 248, 0.96);
+    --color-dock-border:    #DDDDDD;
+    --color-timeline-track: #E0E0E0;
+    --color-mobile-track:   #D0D0D0;
+    --color-progress-track: #EEEEEE;
+    --color-progress-fill:  #FF2D78;  /* pink bar on light bg       */
+    --color-node-active:    #111111;
+    --color-contact-outer:  #E2E2E2;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
 
   body {
     @apply bg-background text-foreground;
@@ -71,9 +101,7 @@
     overflow-x: hidden;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 }
 
 @layer components {
@@ -84,7 +112,7 @@
     background-clip: text;
   }
 
-  /* Generic scroll-fade used by About, Skills, Projects, Contact headings */
+  /* Generic scroll-fade (About, Skills, Projects, Contact headings) */
   .section-fade-up {
     opacity: 0;
     transform: translateY(30px);
@@ -95,52 +123,56 @@
     transform: translateY(0);
   }
 
-  /* ── Career Journey — keyframe-based animations ─────────────────────────
-     Using @keyframes instead of CSS transitions guarantees the animation
-     always plays from its `from` state the moment the class is added,
-     regardless of whether the element's initial state was previously painted.
-  ─────────────────────────────────────────────────────────────────────── */
-
-  /* Timeline line: starts invisible, draws downward */
-  .timeline-line-fill {
-    height: 0;
-  }
+  /* ── Career Journey — keyframe animations ─────────────────
+     @keyframes guarantee the animation always plays from its
+     `from` state the moment the class is added.
+  ─────────────────────────────────────────────────────────── */
+  .timeline-line-fill { height: 0; }
   .timeline-line-fill.in-view {
-    /* delay 0.3 s lets the heading fade finish first */
     animation: timelineLineGrow 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
   }
 
-  /* Career cards: start invisible, slide in from their side */
-  .career-card-left {
-    opacity: 0;
-  }
+  .career-card-left  { opacity: 0; }
   .career-card-left.in-view {
     animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 
-  .career-card-right {
-    opacity: 0;
-  }
+  .career-card-right { opacity: 0; }
   .career-card-right.in-view {
     animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 }
 
-/* ── Keyframe definitions ───────────────────────────────────────────────── */
+/* ── Smooth theme transition ────────────────────────────────
+   .theme-transitioning is added for ~350 ms during a toggle.
+   The !important overrides inline styles only for that window.
+─────────────────────────────────────────────────────────── */
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color     0.35s ease,
+    color            0.35s ease,
+    box-shadow       0.35s ease !important;
+}
 
+/* ── Keyframes ──────────────────────────────────────────────── */
 @keyframes timelineLineGrow {
   from { height: 0; }
   to   { height: 100%; }
 }
-
 @keyframes slideInFromLeft {
   from { opacity: 0; transform: translateX(-60px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slideInFromRight {
   from { opacity: 0; transform: translateX(60px); }
   to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes iconAppear {
+  from { transform: rotate(-25deg) scale(0.6); opacity: 0; }
+  to   { transform: rotate(0deg)  scale(1);   opacity: 1; }
 }
 
 @keyframes nodePulse {

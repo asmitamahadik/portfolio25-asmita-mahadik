@@ -1,90 +1,101 @@
-const pills = [
-  "React.js",
-  "Node.js",
-  "TypeScript",
-  "Python",
-  "Gen AI",
-  "Spring Boot",
-];
+import { useState } from "react";
+import { Copy, Check } from "lucide-react";
+
+const EMAIL = "asmitamahadik24@gmail.com";
 
 const Hero = () => {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(EMAIL).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center pt-24 pb-20 px-6"
+      className="min-h-screen flex flex-col items-center justify-center text-center pt-24 pb-20 px-6"
     >
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
-          {/* Left 60% */}
-          <div className="lg:col-span-3 space-y-6">
-            <h1
-              className="font-bold text-white leading-[1.05]"
-              style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)" }}
-            >
-              Asmita
-              <br />
-              Mahadik
-            </h1>
-            <p
-              className="text-xl md:text-2xl font-medium"
-              style={{ color: "#A0A0A0" }}
-            >
-              Front-end &amp; Full-Stack Developer
-            </p>
-            <p
-              className="text-base leading-relaxed max-w-lg"
-              style={{ color: "#A0A0A0" }}
-            >
-              Front-end and full-stack developer with experience building scalable
-              web applications in agile environments, integrating APIs, and
-              automating workflows. Passionate about applying skills in generative
-              AI and automation to build innovative, impactful products.
-            </p>
-            <div className="flex flex-wrap gap-2 pt-2">
-              {pills.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-white rounded-full text-sm font-medium"
-                  style={{ background: "#FF2D78", padding: "6px 16px" }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+      <p
+        className="text-sm mb-4 text-muted-foreground"
+        style={{ letterSpacing: "0.05em" }}
+      >
+        Hey, I'm
+      </p>
 
-          {/* Right 40% */}
-          <div className="lg:col-span-2 flex justify-center lg:justify-end">
-            <div
-              className="rounded-full overflow-hidden flex items-center justify-center select-none flex-shrink-0"
-              style={{
-                width: "clamp(200px, 28vw, 320px)",
-                height: "clamp(200px, 28vw, 320px)",
-                background: "#111",
-                boxShadow:
-                  "0 0 60px rgba(255,45,120,0.2), 0 0 120px rgba(255,45,120,0.06)",
-              }}
-            >
-              <img
-                src="/photo.jpeg"
-                alt="Asmita Mahadik"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: "center 18%" }}
-                onError={(e) => {
-                  // Fallback to initials if image not found
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling?.removeAttribute("style");
-                }}
-              />
-              <span
-                className="font-bold text-white"
-                style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", display: "none" }}
-              >
-                AM
-              </span>
-            </div>
-          </div>
-        </div>
+      <h1
+        className="font-bold text-foreground leading-none mb-5"
+        style={{
+          fontSize: "clamp(3rem, 10vw, 6.5rem)",
+          letterSpacing: "-0.02em",
+          textTransform: "uppercase",
+        }}
+      >
+        Asmita Mahadik
+      </h1>
+
+      {/* Role pill */}
+      <span
+        className="inline-block text-white text-sm font-semibold mb-8"
+        style={{
+          background: "#FF2D78",
+          padding: "6px 20px",
+          borderRadius: "30px",
+        }}
+      >
+        Front-end &amp; Full-Stack Developer
+      </span>
+
+      <p
+        className="text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed"
+      >
+        I build scalable web applications that deliver{" "}
+        <em
+          style={{
+            fontStyle: "italic",
+            background: "linear-gradient(135deg, #FF2D78, #7C3AED)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          real impact
+        </em>
+        .
+      </p>
+
+      {/* CTAs */}
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="#contact"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="flex items-center gap-2 text-white font-semibold transition-opacity hover:opacity-80"
+          style={{
+            background: "#FF2D78",
+            padding: "12px 28px",
+            borderRadius: "40px",
+            fontSize: "0.95rem",
+          }}
+        >
+          Let's Connect <span>→</span>
+        </a>
+
+        <button
+          onClick={copy}
+          className="flex items-center gap-2 text-sm transition-opacity hover:opacity-70"
+          style={{ color: "hsl(var(--muted-foreground))" }}
+        >
+          {EMAIL}
+          {copied ? (
+            <Check className="h-4 w-4" style={{ color: "#22c55e" }} />
+          ) : (
+            <Copy className="h-4 w-4" />
+          )}
+        </button>
       </div>
     </section>
   );

@@ -2,19 +2,36 @@ import { useState, useEffect } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
 
 const navItems = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Education" },
-  { href: "#career", label: "Career" },
+  { href: "#home",     label: "Home"     },
+  { href: "#about",    label: "About"    },
   { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "#skills",   label: "Skills"   },
+  { href: "#career",   label: "Career"   },
+  { href: "#contact",  label: "Contact"  },
 ];
 
 const Navigation = () => {
-  const [activeSection, setActiveSection] = useState("home");
+  // Start with all sections as "not visible" except home (set by default)
+  const [visible, setVisible] = useState<Set<string>>(() => new Set(["home"]));
   const [isLight, setIsLight] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Derive active section: the FIRST (highest on page) section that is currently visible.
+  // This ensures "home" wins over "about" on initial load even if both are intersecting.
+  const activeSection =
+    navItems.find(({ href }) => visible.has(href.slice(1)))?.href.slice(1) ?? "home";
+
+  // Restore saved theme on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    const osLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    if (saved === "light" || (!saved && osLight)) {
+      setIsLight(true);
+      document.documentElement.classList.add("light");
+    }
+  }, []);
+
+  // Scrollspy — tracks which sections are currently visible, picks the highest
   useEffect(() => {
     const observers = navItems.map(({ href }) => {
       const id = href.slice(1);
@@ -22,9 +39,13 @@ const Navigation = () => {
       if (!el) return null;
       const obs = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) setActiveSection(id);
+          setVisible((prev) => {
+            const next = new Set(prev);
+            entry.isIntersecting ? next.add(id) : next.delete(id);
+            return next;
+          });
         },
-        { threshold: 0.3 }
+        { threshold: 0.15 }
       );
       obs.observe(el);
       return obs;
@@ -34,95 +55,115 @@ const Navigation = () => {
 
   const toggleTheme = () => {
     const next = !isLight;
+    const root = document.documentElement;
+    root.classList.add("theme-transitioning");
     setIsLight(next);
-    document.documentElement.classList.toggle("light", next);
+    root.classList.toggle("light", next);
+    localStorage.setItem("theme", next ? "light" : "dark");
+    setTimeout(() => root.classList.remove("theme-transitioning"), 400);
   };
 
-  const scrollToSection = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (href: string) => {
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     setIsOpen(false);
   };
 
   return (
-    <nav
-      className="fixed top-0 w-full z-50 transition-all duration-300"
-      style={{
-        background: "rgba(0,0,0,0.9)",
-        backdropFilter: "blur(10px)",
-        borderBottom: "1px solid #222",
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+    <>
+      {/* ── Pill nav ─────────────────────────────────────────── */}
+      <nav
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+        style={{ width: "max-content", maxWidth: "calc(100vw - 32px)" }}
+      >
+        <div
+          className="flex items-center gap-1 px-3 py-2"
+          style={{
+            background: "var(--color-nav-bg)",
+            border: "1px solid var(--color-nav-border)",
+            borderRadius: "50px",
+            backdropFilter: "blur(14px)",
+          }}
+        >
           {/* Logo */}
-          <div
-            className="w-8 h-8 flex items-center justify-center font-bold text-sm text-white select-none"
-            style={{ border: "1.5px solid #FF2D78", borderRadius: "6px" }}
+          <button
+            onClick={() => scrollTo("#home")}
+            className="font-bold text-sm mr-2 flex-shrink-0 text-foreground px-2"
           >
-            ✓
-          </div>
+            Asmita<span style={{ color: "#FF2D78" }}>.</span>
+          </button>
 
-          {/* Center nav — desktop */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map(({ href, label }) => {
               const id = href.slice(1);
               const isActive = activeSection === id;
               return (
                 <button
                   key={href}
-                  onClick={() => scrollToSection(href)}
-                  className="relative text-sm font-medium transition-colors duration-200 pb-1"
-                  style={{ color: isActive ? "#fff" : "#A0A0A0" }}
+                  onClick={() => scrollTo(href)}
+                  className="text-sm font-medium transition-all duration-200"
+                  style={{
+                    padding: "6px 14px",
+                    borderRadius: "30px",
+                    background: isActive ? "#FF2D78" : "transparent",
+                    color: isActive ? "#fff" : "hsl(var(--muted-foreground))",
+                  }}
                 >
                   {label}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
-                      style={{ background: "#FF2D78" }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* Right: theme toggle + mobile hamburger */}
-          <div className="flex items-center gap-2">
+          {/* Right controls */}
+          <div className="flex items-center gap-1 ml-2">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg transition-colors duration-200 hover:bg-white/10"
-              style={{ color: "#A0A0A0" }}
+              className="p-2 rounded-full transition-colors hover:bg-foreground/10"
+              style={{ color: "hsl(var(--muted-foreground))" }}
               aria-label="Toggle theme"
             >
-              {isLight ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              {isLight ? (
+                <Sun key="sun" className="h-4 w-4" style={{ animation: "iconAppear 0.25s ease-out" }} />
+              ) : (
+                <Moon key="moon" className="h-4 w-4" style={{ animation: "iconAppear 0.25s ease-out" }} />
+              )}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-              style={{ color: "#A0A0A0" }}
-              aria-label="Toggle menu"
+              className="md:hidden p-2 rounded-full hover:bg-foreground/10 transition-colors"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+              aria-label="Menu"
             >
-              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile dropdown */}
         {isOpen && (
           <div
-            className="md:hidden py-4 space-y-1 border-t"
-            style={{ borderColor: "#222" }}
+            className="md:hidden mt-2 py-2 px-3 flex flex-col gap-1"
+            style={{
+              background: "var(--color-nav-bg)",
+              border: "1px solid var(--color-nav-border)",
+              borderRadius: "20px",
+              backdropFilter: "blur(14px)",
+            }}
           >
             {navItems.map(({ href, label }) => {
               const id = href.slice(1);
+              const isActive = activeSection === id;
               return (
                 <button
                   key={href}
-                  onClick={() => scrollToSection(href)}
-                  className="block w-full text-left px-2 py-2.5 text-sm font-medium rounded-lg transition-colors"
+                  onClick={() => scrollTo(href)}
+                  className="text-sm font-medium text-left transition-all"
                   style={{
-                    color: activeSection === id ? "#FF2D78" : "#A0A0A0",
+                    padding: "8px 14px",
+                    borderRadius: "12px",
+                    background: isActive ? "#FF2D78" : "transparent",
+                    color: isActive ? "#fff" : "hsl(var(--muted-foreground))",
                   }}
                 >
                   {label}
@@ -131,8 +172,8 @@ const Navigation = () => {
             })}
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 
