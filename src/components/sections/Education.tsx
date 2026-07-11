@@ -11,7 +11,7 @@ const Education = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto">
           <Card className="card-hover bg-gradient-card border-accent/20">
             <CardHeader className="pb-6">
@@ -32,7 +32,7 @@ const Education = () => {
                 </div>
               </div>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -47,41 +47,33 @@ const Education = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold mb-3 text-purple-400">Core Subjects</h4>
                   <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></div>
-                      <span className="text-muted-foreground text-sm">Data Structures & Algorithms</span>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-3"></div>
-                      <span className="text-muted-foreground text-sm">Software Engineering</span>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></div>
-                      <span className="text-muted-foreground text-sm">Database Management Systems</span>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-3"></div>
-                      <span className="text-muted-foreground text-sm">Web Technologies</span>
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></div>
-                      <span className="text-muted-foreground text-sm">Object-Oriented Programming</span>
-                    </li>
+                    {[
+                      { color: "bg-cyan-400", label: "Data Structures & Algorithms" },
+                      { color: "bg-blue-400", label: "Software Engineering" },
+                      { color: "bg-cyan-400", label: "Database Management Systems" },
+                      { color: "bg-blue-400", label: "Web Technologies" },
+                      { color: "bg-cyan-400", label: "Object-Oriented Programming" },
+                    ].map((subject) => (
+                      <li key={subject.label} className="flex items-center">
+                        <div className={`w-1.5 h-1.5 ${subject.color} rounded-full mr-3`}></div>
+                        <span className="text-muted-foreground text-sm">{subject.label}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
-              
+
               <div className="bg-background/50 p-6 rounded-lg">
                 <h4 className="font-semibold mb-3 text-green-400">Academic Highlights</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  Completed a comprehensive Computer Engineering program with a strong focus on software development, 
-                  data structures, and modern web technologies. The curriculum provided a solid foundation in both 
-                  theoretical concepts and practical applications, preparing me for the evolving landscape of 
-                  technology and software engineering. Developed strong analytical and problem-solving skills 
+                  Completed a comprehensive Computer Engineering program with a strong focus on software development,
+                  data structures, and modern web technologies. The curriculum provided a solid foundation in both
+                  theoretical concepts and practical applications, preparing me for the evolving landscape of
+                  technology and software engineering. Developed strong analytical and problem-solving skills
                   through various projects and assignments.
                 </p>
               </div>
