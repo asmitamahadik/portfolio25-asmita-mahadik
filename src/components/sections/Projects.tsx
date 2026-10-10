@@ -46,12 +46,37 @@ function ProjectCard({
         {project.subtitle}
       </p>
 
+      {project.company ? (
+        <p
+          className="text-xs mb-3"
+          style={{ color: "hsl(var(--muted-foreground))" }}
+        >
+          {project.role} — {project.company}
+          {project.teamSize ? ` · Team of ${project.teamSize}` : ""}
+        </p>
+      ) : null}
+
       <p
         className="text-sm leading-relaxed mb-5 flex-1"
         style={{ color: "hsl(var(--muted-foreground))" }}
       >
         {project.description}
       </p>
+
+      {project.highlights ? (
+        <ul className="space-y-2 mb-5">
+          {project.highlights.map((h) => (
+            <li
+              key={h}
+              className="flex items-start gap-2 text-sm leading-relaxed"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+            >
+              <span style={{ color: "#FF2D78", flexShrink: 0, marginTop: "2px" }}>•</span>
+              {h}
+            </li>
+          ))}
+        </ul>
+      ) : null}
 
       {/* Tech tags */}
       <div className="flex flex-wrap gap-2 mb-5">
@@ -70,18 +95,41 @@ function ProjectCard({
         ))}
       </div>
 
-      {/* Link */}
-      {project.moreInfoUrl ? (
-        <a
-          href={project.moreInfoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-70"
+      {/* Links */}
+      {project.moreInfoUrl || project.repoUrl ? (
+        <div className="flex flex-wrap items-center gap-4">
+          {project.moreInfoUrl ? (
+            <a
+              href={project.moreInfoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-70"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {project.moreInfoUrl.includes("github.com") ? "View Repository" : "Live Demo"}
+            </a>
+          ) : null}
+          {project.repoUrl ? (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-opacity hover:opacity-70"
+              style={{ color: "hsl(var(--muted-foreground))" }}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              View Repository
+            </a>
+          ) : null}
+        </div>
+      ) : project.company ? (
+        <span
+          className="text-xs"
           style={{ color: "hsl(var(--muted-foreground))" }}
         >
-          <ExternalLink className="h-3.5 w-3.5" />
-          Live Demo
-        </a>
+          Confidential client project — details shared under NDA
+        </span>
       ) : null}
     </div>
   );
@@ -104,23 +152,19 @@ const Projects = () => {
           <p className="text-muted-foreground">A selection of my recent work</p>
         </div>
 
-        {/* Asymmetric grid — wide/narrow alternates per row */}
+        {/* Asymmetric grid — wide/narrow alternates per row, a trailing odd card spans full width */}
         <div className="grid grid-cols-12 gap-5">
-          {/* Row 1 */}
-          <div className="col-span-12 md:col-span-7 flex">
-            <ProjectCard project={projects[0]} index={0} className="w-full" />
-          </div>
-          <div className="col-span-12 md:col-span-5 flex">
-            <ProjectCard project={projects[1]} index={1} className="w-full" />
-          </div>
+          {projects.map((project, index) => {
+            const isLastOdd = projects.length % 2 === 1 && index === projects.length - 1;
+            const isWide = index % 2 === 0;
+            const span = isLastOdd ? "col-span-12" : isWide ? "col-span-12 md:col-span-7" : "col-span-12 md:col-span-5";
 
-          {/* Row 2 — flipped widths */}
-          <div className="col-span-12 md:col-span-5 flex">
-            <ProjectCard project={projects[2]} index={2} className="w-full" />
-          </div>
-          <div className="col-span-12 md:col-span-7 flex">
-            <ProjectCard project={projects[3]} index={3} className="w-full" />
-          </div>
+            return (
+              <div key={project.title} className={`${span} flex`}>
+                <ProjectCard project={project} index={index} className="w-full" />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

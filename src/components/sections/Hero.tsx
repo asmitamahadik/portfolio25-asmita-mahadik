@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Download } from "lucide-react";
 
 const EMAIL = "asmitamahadik24@gmail.com";
 
@@ -82,6 +82,20 @@ const Hero = () => {
           }}
         >
           Let's Connect <span>→</span>
+        </a>
+
+        <a
+          href="/resume.pdf"
+          download="Asmita-Mahadik-Resume.pdf"
+          className="flex items-center gap-2 font-semibold transition-opacity hover:opacity-80 text-foreground"
+          style={{
+            border: "1px solid var(--color-border)",
+            padding: "12px 28px",
+            borderRadius: "40px",
+            fontSize: "0.95rem",
+          }}
+        >
+          <Download className="h-4 w-4" /> Resume
         </a>
 
         <button

@@ -14,7 +14,6 @@ const DEVICONS: Record<string, string> = {
   "Spring Boot":   "devicon-spring-plain colored",
   "Redux":         "devicon-redux-original colored",
   "Tailwind CSS":  "devicon-tailwindcss-plain colored",
-  "Django":        "devicon-django-plain colored",
   "MongoDB":       "devicon-mongodb-plain colored",
   "MySQL":         "devicon-mysql-plain colored",
   "PostgreSQL":    "devicon-postgresql-plain colored",
@@ -27,27 +26,32 @@ const DEVICONS: Record<string, string> = {
 
 // Fallback brand colors for skills without a devicon
 const FALLBACK_COLORS: Record<string, string> = {
-  "CI/CD":    "#6B7280",
-  "JWT":      "#8B5CF6",
-  "Zustand":  "#433D77",
+  "CI/CD":      "#6B7280",
+  "JWT":        "#8B5CF6",
+  "Zustand":    "#433D77",
+  "REST APIs":  "#FF2D78",
 };
 
 const skillCategories = [
   {
-    category: "Languages",
-    skills: ["TypeScript", "JavaScript", "Python", "Java", "C++"],
+    category: "Primary / Core Stack",
+    skills: ["React.js", "JavaScript", "TypeScript", "Node.js", "Express.js", "Java", "Spring Boot", "MySQL", "REST APIs"],
   },
   {
-    category: "Frameworks & Libraries",
-    skills: ["React.js", "Next.js", "Node.js", "Express.js", "Spring Boot", "Redux", "Tailwind CSS", "Django"],
+    category: "Currently Learning / Exploring",
+    skills: ["Next.js", "GCP"],
+  },
+  {
+    category: "Languages",
+    skills: ["Python", "C++"],
   },
   {
     category: "Databases",
-    skills: ["MongoDB", "MySQL", "PostgreSQL"],
+    skills: ["MongoDB", "PostgreSQL"],
   },
   {
     category: "Tools & Platforms",
-    skills: ["Git", "GCP", "Firebase", "Postman", "Jira", "CI/CD", "JWT", "Zustand"],
+    skills: ["Git", "Firebase", "Postman", "Jira", "CI/CD", "JWT", "Zustand", "Redux", "Tailwind CSS"],
   },
 ];
 

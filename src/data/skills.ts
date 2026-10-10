@@ -12,7 +12,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: "Frameworks",
-    skills: ["ReactJS", "Redux", "NodeJS", "ExpressJS", "Spring Boot", "Django"],
+    skills: ["ReactJS", "Redux", "NodeJS", "ExpressJS", "Spring Boot"],
     color: "from-blue-400 to-blue-600",
   },
   {
