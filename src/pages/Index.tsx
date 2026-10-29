@@ -1,23 +1,38 @@
-import Navigation from "@/components/layout/Navigation";
-import Particles from "@/components/layout/Particles";
-import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
+import { useEffect } from "react";
+import "@/styles/coddle.css";
+import { initScroll, destroyScroll, ScrollTrigger } from "@/lib/scroll";
+import Nav from "@/components/coddle/Nav";
+import Hero from "@/components/coddle/Hero";
+import Marquee from "@/components/coddle/Marquee";
+import Statement from "@/components/coddle/Statement";
+import Projects from "@/components/coddle/Projects";
+import Career from "@/components/coddle/Career";
+import Toolbox from "@/components/coddle/Toolbox";
+import Contact from "@/components/coddle/Contact";
 
 const Index = () => {
+  useEffect(() => {
+    initScroll();
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+      destroyScroll();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background">
-      <Particles />
-      <Navigation />
-      <main className="relative" style={{ zIndex: 1 }}>
+    <div className="cd">
+      <Nav />
+      <main>
         <Hero />
-        <About />
+        <Marquee />
+        <Statement />
         <Projects />
-        <Skills />
-        <Experience />
+        <Career />
+        <Toolbox />
         <Contact />
       </main>
     </div>

@@ -101,7 +101,8 @@
     overflow-x: hidden;
   }
 
-  html { scroll-behavior: smooth; }
+  /* scroll-behavior must stay "auto" — Lenis drives smooth scrolling in JS */
+  html { scroll-behavior: auto; }
 }
 
 @layer components {
