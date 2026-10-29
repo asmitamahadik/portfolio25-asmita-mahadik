@@ -14,6 +14,9 @@ const palette = [
 const Projects = () => {
   const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const hintRef = useRef<HTMLDivElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
+  const countRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -39,6 +42,14 @@ const Projects = () => {
           scrub: 1,
           pin: true,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (fillRef.current) fillRef.current.style.transform = `scaleX(${self.progress})`;
+            if (countRef.current) {
+              const n = Math.round(self.progress * (projects.length - 1)) + 1;
+              countRef.current.textContent = `${String(n).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+            }
+            if (hintRef.current) hintRef.current.style.opacity = self.progress > 0.02 ? "0" : "1";
+          },
         },
       });
 
@@ -60,7 +71,13 @@ const Projects = () => {
 
   return (
     <section id="cd-work" className="cd-shell" style={{ paddingTop: 100 }}>
-      <h2 className="cd-statement-text mb-10">Work I&apos;ve shipped.</h2>
+      <div className="cd-work-head">
+        <h2 className="cd-statement-text">Work I&apos;ve shipped.</h2>
+        <div className="cd-work-hint" ref={hintRef} aria-hidden>
+          <span>Keep scrolling to explore</span>
+          <span className="cd-work-hint-icon">&rarr;</span>
+        </div>
+      </div>
 
       <div ref={pinRef} className="cd-projects-pin">
         <div ref={trackRef} className="cd-projects-track">
@@ -128,6 +145,13 @@ const Projects = () => {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="cd-work-progress" aria-hidden>
+          <div className="cd-work-progress-bar">
+            <div className="cd-work-progress-fill" ref={fillRef} />
+          </div>
+          <span ref={countRef}>{`01 / ${String(projects.length).padStart(2, "0")}`}</span>
         </div>
       </div>
     </section>

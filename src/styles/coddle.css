@@ -268,8 +268,6 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 14%;
-  filter: grayscale(1) contrast(1.08);
-  mix-blend-mode: multiply;
 }
 
 .cd-mosaic-glyph {
@@ -410,13 +408,13 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  --cd-track-pad: max(24px, calc((100vw - 1320px) / 2 + 24px));
 }
 
 .cd-projects-track {
   display: flex;
   align-items: flex-start;
   gap: 32px;
-  --cd-track-pad: max(24px, calc((100vw - 1320px) / 2 + 24px));
   padding-left: var(--cd-track-pad);
   padding-right: var(--cd-track-pad);
   will-change: transform;
@@ -522,6 +520,66 @@
   padding-bottom: 2px;
 }
 
+.cd-work-head {
+  margin-bottom: 40px;
+}
+
+.cd-work-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  color: rgba(245, 243, 239, 0.55);
+  font-size: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+.cd-work-hint-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  color: var(--cd-paper);
+  animation: cd-hint-nudge 1.4s ease-in-out infinite;
+}
+
+@keyframes cd-hint-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+
+.cd-work-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 var(--cd-track-pad);
+  color: rgba(245, 243, 239, 0.55);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd-work-progress-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.cd-work-progress-fill {
+  height: 100%;
+  background: var(--cd-yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
 @media (max-width: 900px) {
   .cd-projects-pin {
     height: auto;
@@ -538,6 +596,18 @@
   .cd-project-card {
     height: auto;
     min-height: 460px;
+  }
+
+  .cd-work-hint,
+  .cd-work-progress {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-work-hint,
+  .cd-work-progress {
+    display: none;
   }
 }
 
