@@ -1,0 +1,539 @@
+/* ──────────────────────────────────────────────────────────────
+   Coddle-style redesign — everything here is scoped under .cd so
+   the legacy section styles in src/index.css keep working untouched.
+   ────────────────────────────────────────────────────────────── */
+
+.cd {
+  --cd-bg: #0a0a0a;
+  --cd-ink: #0a0a0a;
+  --cd-paper: #f5f3ef;
+  --cd-yellow: #f3b95a;
+  --cd-coral: #eb7f68;
+  --cd-periwinkle: #8f96f3;
+  --cd-green: #5db896;
+  --cd-lilac: #d59ce3;
+  --cd-blue: #1230e0;
+
+  background: var(--cd-bg);
+  color: var(--cd-paper);
+  font-family: "DM Sans", "Inter", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.cd * {
+  box-sizing: border-box;
+}
+
+.cd ::selection {
+  background: var(--cd-blue);
+  color: var(--cd-paper);
+}
+
+.cd-shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .cd-shell {
+    padding: 0 18px;
+  }
+}
+
+/* ── Nav ─────────────────────────────────────────────────────── */
+.cd-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cd-nav-wordmark {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.03em;
+  color: var(--cd-paper);
+}
+
+.cd-nav-link {
+  color: rgba(245, 243, 239, 0.72);
+  font-weight: 500;
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+}
+
+.cd-nav-link:hover {
+  color: var(--cd-paper);
+}
+
+.cd-btn-cta {
+  background: var(--cd-blue);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 10px 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cd-btn-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(18, 48, 224, 0.35);
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.cd-hero {
+  position: relative;
+  padding: 160px 0 100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cd-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cd-blue);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 6px 16px 6px 12px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin: 0 4px;
+}
+
+.cd-hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: cd-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes cd-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.cd-hero-headline {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  font-size: clamp(2.6rem, 7.2vw, 6rem);
+  max-width: 920px;
+}
+
+.cd-hero-line {
+  display: block;
+  overflow: hidden;
+}
+
+.cd-hero-line > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.cd-mosaic {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, minmax(90px, 1fr));
+  gap: 14px;
+  margin-top: 56px;
+  max-width: 760px;
+}
+
+.cd-mosaic-tile {
+  border-radius: 20px;
+  min-height: 90px;
+  will-change: transform;
+}
+
+.cd-mosaic-photo {
+  grid-row: span 2;
+  overflow: hidden;
+}
+
+.cd-mosaic-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+
+@media (max-width: 640px) {
+  .cd-mosaic {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, minmax(64px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* ── Marquee ─────────────────────────────────────────────────── */
+.cd-marquee {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  padding: 26px 0;
+}
+
+.cd-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: cd-marquee-scroll 28s linear infinite;
+}
+
+.cd-marquee-item {
+  flex-shrink: 0;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: rgba(245, 243, 239, 0.85);
+  padding: 0 28px;
+  white-space: nowrap;
+}
+
+.cd-marquee-item::after {
+  content: "/";
+  margin-left: 28px;
+  color: var(--cd-coral);
+}
+
+@keyframes cd-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-marquee-track {
+    animation: none;
+  }
+}
+
+/* ── Statement ───────────────────────────────────────────────── */
+.cd-statement {
+  padding: 140px 0;
+}
+
+.cd-statement-text {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  font-size: clamp(1.8rem, 4.4vw, 3.4rem);
+  max-width: 1000px;
+}
+
+.cd-statement-word {
+  color: rgba(245, 243, 239, 0.22);
+  transition: color 0.1s linear;
+}
+
+.cd-statement-word.is-lit {
+  color: var(--cd-paper);
+}
+
+.cd-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 80px;
+}
+
+.cd-stat-card {
+  border-radius: 20px;
+  padding: 24px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cd-stat-value {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.cd-stat-label {
+  font-size: 0.82rem;
+  color: rgba(245, 243, 239, 0.6);
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .cd-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Projects (pinned horizontal scroll) ────────────────────── */
+.cd-projects-pin {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.cd-projects-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  --cd-track-pad: max(24px, calc((100vw - 1320px) / 2 + 24px));
+  padding-left: var(--cd-track-pad);
+  padding-right: var(--cd-track-pad);
+  will-change: transform;
+}
+
+.cd-project-card {
+  flex-shrink: 0;
+  width: min(460px, 80vw);
+  height: 560px;
+  border-radius: 28px;
+  padding: 40px 36px;
+  color: var(--cd-ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+.cd-project-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cd-project-year {
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.cd-project-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-top: 10px;
+}
+
+.cd-project-subtitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  margin-top: 6px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.cd-project-desc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+  opacity: 0.88;
+  overflow: hidden;
+}
+
+.cd-project-desc-item {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.cd-project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.cd-project-tag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.12);
+}
+
+.cd-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.cd-project-link {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--cd-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+}
+
+@media (max-width: 900px) {
+  .cd-projects-pin {
+    height: auto;
+    display: block;
+  }
+
+  .cd-projects-track {
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
+    gap: 24px;
+  }
+
+  .cd-project-card {
+    height: auto;
+    min-height: 460px;
+  }
+}
+
+/* ── Career (sticky stack) ──────────────────────────────────── */
+.cd-career-stack {
+  position: relative;
+}
+
+.cd-career-card {
+  position: sticky;
+  top: 110px;
+  border-radius: 28px;
+  padding: 44px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #121212;
+}
+
+@media (max-width: 640px) {
+  .cd-career-card {
+    padding: 28px;
+    top: 90px;
+  }
+}
+
+/* ── Toolbox ─────────────────────────────────────────────────── */
+.cd-toolbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cd-toolbox-card {
+  flex: 1 1 calc(33.333% - 14px);
+  max-width: calc(33.333% - 14px);
+  min-width: 260px;
+  height: 230px;
+  border-radius: 24px;
+  padding: 28px;
+  color: var(--cd-ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 900px) {
+  .cd-toolbox-card {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .cd-toolbox-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 190px;
+  }
+}
+
+.cd-toolbox-skills {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+}
+
+.cd-toolbox-skill {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.1);
+}
+
+/* ── Contact ─────────────────────────────────────────────────── */
+.cd-contact {
+  padding: 140px 0 100px;
+  text-align: center;
+}
+
+.cd-contact-headline {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  font-size: clamp(2.4rem, 7vw, 5.4rem);
+}
+
+.cd-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.cd-contact-edu {
+  color: rgba(245, 243, 239, 0.55);
+  font-size: 0.9rem;
+  margin-top: 28px;
+}
+
+.cd-btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--cd-paper);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 12px 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cd-btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}

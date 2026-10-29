@@ -2,41 +2,40 @@ export interface Project {
   title: string;
   subtitle: string;
   year: string;
-  description: string;
-  technologies: string[];
-  moreInfoUrl?: string;
-  /** Repository link shown alongside a live demo, when both exist */
-  repoUrl?: string;
-  /** Case-study context for client/employer work that can't link to source or screenshots */
   company?: string;
-  role?: string;
-  teamSize?: number;
-  highlights?: string[];
+  bullets: string[];
+  technologies: string[];
+  /** Hosted demo or live site */
+  liveUrl?: string;
+  /** Source repository */
+  repoUrl?: string;
+  /** Official product page, used for client work with no public repo */
+  productUrl?: string;
 }
 
 export const projects: Project[] = [
   {
     title: "Project Vigil",
-    subtitle: "DC/DR Configuration Drift Monitoring Platform — Case Study",
+    subtitle: "DC/DR Configuration Drift Monitoring Platform, Case Study",
     year: "2026",
     company: "Litmus IT Services Pvt Ltd",
-    role: "Software Developer - Full Stack",
-    teamSize: 7,
-    description:
-      "A configuration drift monitoring platform for disaster-recovery environments, engineered within a cross-functional team of 7, with a six-role permission system and real-time alerting.",
-    highlights: [
-      "Built modular Admin Console and Management Dashboard modules with RBAC across a six-role permission system",
-      "Implemented TOTP-based two-factor authentication (RFC 6238) and a JWT middleware chain with session revocation, CORS, and rate limiting",
-      "Integrated Prometheus (PromQL) for real-time metrics aggregation and a Server-Sent Events (SSE) module for real-time alerts",
+    bullets: [
+      "Built full-stack features for Project Vigil, a drift monitoring platform (React 19, Node.js, Express 5, MySQL, Prometheus).",
+      "Built the Admin Console and Management Dashboard with role-based access control across a six-role permission system.",
+      "Implemented TOTP-based two-factor authentication (RFC 6238) for secure login.",
     ],
-    technologies: ["React.js", "Node.js", "Express.js", "MySQL", "Prometheus", "TOTP/2FA", "RBAC"],
+    technologies: ["React 19", "Node.js", "Express 5", "MySQL", "Prometheus"],
+    productUrl: "https://www.litmusit.com/litmus-vigil/",
   },
   {
     title: "Buyosphere",
     subtitle: "E-Commerce Web Application",
     year: "2024",
-    description:
-      "Full-featured secure e-commerce platform with seamless authentication, real-time cart management, and integrated payment processing. API-driven architecture embracing digital transformation through intelligent process automation.",
+    bullets: [
+      "Built a MERN e-commerce platform with Firebase Authentication (Google sign-in), a cart and Stripe checkout with webhooks.",
+      "Built the Express API with Zod input validation, Helmet, rate limiting and role-based access to the admin panel.",
+      "Built a responsive React storefront with Redux Toolkit, search filters, wishlist, reviews and order tracking.",
+    ],
     technologies: [
       "TypeScript",
       "MongoDB",
@@ -46,43 +45,45 @@ export const projects: Project[] = [
       "Redux Toolkit",
       "Firebase",
       "Stripe",
+      "Zod",
     ],
-    moreInfoUrl: "https://github.com/asmitamahadik/buyosphere",
+    repoUrl: "https://github.com/asmitamahadik/buyosphere",
   },
   {
     title: "Plethora",
     subtitle: "Training & Placement Management System",
     year: "2023",
-    description:
-      "Centralized system automating student-company interactions with role-based access for students, faculty, and recruiters. Streamlined placement workflows reducing administrative overhead.",
-    technologies: [
-      "React.js",
-      "Ant Design",
-      "Java",
-      "Spring Boot",
-      "Spring Security",
-      "MySQL",
-      "JWT",
+    bullets: [
+      "Designed role-based access control for students, faculty and recruiters using Spring Security and JWT authentication.",
+      "Automated placement drive workflows from registration to shortlisting, replacing manual coordination.",
+      "Built a responsive React dashboard with Ant Design to track placement metrics and drive status.",
     ],
-    moreInfoUrl: "https://github.com/asmitamahadik/plethora-tpo",
+    technologies: ["React.js", "Ant Design", "Java", "Spring Boot", "MySQL", "Spring Security", "JWT"],
+    repoUrl: "https://github.com/asmitamahadik/plethora-tpo",
+  },
+  {
+    title: "Cafe Noir",
+    subtitle: "Interactive Restaurant Menu & Ordering Experience",
+    year: "2025",
+    bullets: [
+      "Built an interactive restaurant menu and ordering app with time-aware theming that switches between morning, afternoon and evening palettes.",
+      "Implemented a multi-section menu with item modals, a slide-out cart with live totals and a full checkout flow.",
+      "Added scroll-triggered animations with Framer Motion and a Chef's Note sidebar.",
+    ],
+    technologies: ["Vite", "React", "TypeScript", "shadcn-ui", "Tailwind CSS", "Framer Motion"],
+    liveUrl: "https://cafe-noir-delta.vercel.app",
+    repoUrl: "https://github.com/asmitamahadik/cafe-noir",
   },
   {
     title: "Sorting Visualiser",
     subtitle: "Algorithm Visualization Tool",
     year: "2024",
-    description:
-      "An interactive web application that visually demonstrates how classic sorting algorithms work in real time. Users can watch Bubble Sort, Selection Sort, Insertion Sort, and Merge Sort animate step-by-step on randomized data sets, with controls for speed and array size.",
+    bullets: [
+      "Built an interactive visualizer for classic sorting algorithms running in real time.",
+      "Animated Bubble Sort, Selection Sort, Insertion Sort and Merge Sort step-by-step on randomized data sets.",
+      "Added controls for playback speed and array size.",
+    ],
     technologies: ["JavaScript", "React", "HTML", "CSS"],
-    moreInfoUrl: "https://asmitamahadik.github.io/sorting-visualiser/",
-  },
-  {
-    title: "Café Noir",
-    subtitle: "Interactive Restaurant Menu & Ordering Experience",
-    year: "2025",
-    description:
-      "A fully responsive digital menu app for a fictional café with a time-of-day adaptive theme that shifts the visual mood across breakfast, lunch, and dinner. Features a \"Surprise Me\" chef's special reveal, a tray/cart system for building orders, and a multi-step checkout flow with confetti celebration on completion.",
-    technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Framer Motion"],
-    moreInfoUrl: "https://cafe-noir-delta.vercel.app",
-    repoUrl: "https://github.com/asmitamahadik/cafe-noir",
+    liveUrl: "https://asmitamahadik.github.io/sorting-visualiser/",
   },
 ];
