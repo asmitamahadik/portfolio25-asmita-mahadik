@@ -47,6 +47,7 @@ export const projects: Project[] = [
       "Stripe",
       "Zod",
     ],
+    liveUrl: "https://mern-ecom-frontend-ruddy.vercel.app/",
     repoUrl: "https://github.com/asmitamahadik/buyosphere",
   },
   {
