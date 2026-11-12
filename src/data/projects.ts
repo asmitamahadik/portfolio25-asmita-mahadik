@@ -60,6 +60,7 @@ export const projects: Project[] = [
       "Built a responsive React dashboard with Ant Design to track placement metrics and drive status.",
     ],
     technologies: ["React.js", "Ant Design", "Java", "Spring Boot", "MySQL", "Spring Security", "JWT"],
+    liveUrl: "https://plethora-tpo-frontend.onrender.com",
     repoUrl: "https://github.com/asmitamahadik/plethora-tpo",
   },
   {
